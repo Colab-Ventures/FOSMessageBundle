@@ -5,6 +5,7 @@ namespace FOS\MessageBundle\Security;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\MessageBundle\Model\ParticipantInterface;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 /**
  * Provides the authenticated participant
@@ -20,7 +21,7 @@ class ParticipantProvider implements ParticipantProviderInterface
      */
     protected $securityContext;
 
-    public function __construct(SecurityContextInterface $securityContext)
+    public function __construct(TokenStorageInterface $securityContext)
     {
         $this->securityContext = $securityContext;
     }
