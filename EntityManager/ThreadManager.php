@@ -357,8 +357,8 @@ class ThreadManager extends BaseThreadManager
             ->getQuery()
             ->execute();
 
-        usort($results, function ($a, $b) use ($participant){
-            return $a->getLastMessageDate($participant) < $b->getLastMessageDate($participant) ? 1 : -1;
+        usort($results, function ($a, $b) {
+            return $a->getLastMessageDate() < $b->getLastMessageDate() ? 1 : -1;
         });
 
         return $results;
