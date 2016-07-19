@@ -2,10 +2,9 @@
 
 namespace FOS\MessageBundle\Security;
 
-use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use FOS\MessageBundle\Model\ParticipantInterface;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Provides the authenticated participant
