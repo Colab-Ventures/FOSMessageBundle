@@ -172,6 +172,11 @@ class MessageManager extends BaseMessageManager
         return $this->class;
     }
 
+    public function getThreadMessages(ThreadInterface $thread)
+    {
+        return $this->repository->findBy(['thread' => $thread], ['createdAt' => 'desc']);
+    }
+
     /**
      * DENORMALIZATION
      *
