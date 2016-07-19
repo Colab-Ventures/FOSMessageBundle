@@ -325,6 +325,46 @@ class ThreadManager extends BaseThreadManager
     }
 
     /**
+     * Gets all messages in thread including first sent message
+     *
+     * @param ParticipantInterface $participant
+     * @return Builder a query builder suitable for pagination
+     */
+    public function getParticipantInboxThreadsIncludingFirstSentMessageQueryBuilder(ParticipantInterface $participant)
+    {
+
+        return $this->repository->createQueryBuilder('t')
+            ->innerJoin('t.metadata', 'tm')
+            ->innerJoin('tm.participant', 'p')
+
+            // the participant is in the thread participants
+            ->andWhere('p.id = :user_id')
+            ->setParameter('user_id', $participant->getId())
+
+            // the thread does not contain spam or flood
+            ->andWhere('t.isSpam = :isSpam')
+            ->setParameter('isSpam', false, \PDO::PARAM_BOOL)
+
+            // the thread is not deleted by this participant
+            ->andWhere('tm.isDeleted = :isDeleted')
+            ->setParameter('isDeleted', false, \PDO::PARAM_BOOL)
+            ;
+    }
+
+    public function findParticipantInboxThreadsIncludingFirstSentMessage(ParticipantInterface $participant)
+    {
+        $results = $this->getParticipantInboxThreadsIncludingFirstSentMessageQueryBuilder($participant)
+            ->getQuery()
+            ->execute();
+
+        usort($results, function ($a, $b) use ($participant){
+            return $a->getLastMessageDate($participant) < $b->getLastMessageDate($participant) ? 1 : -1;
+        });
+
+        return $results;
+    }
+
+    /**
      * DENORMALIZATION
      *
      * All following methods are relative to denormalization

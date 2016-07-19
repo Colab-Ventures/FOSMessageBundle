@@ -138,4 +138,11 @@ class Provider implements ProviderInterface
     {
         return $this->participantProvider->getAuthenticatedParticipant();
     }
+
+    public function getInboxThreadsIncludingFirstSentMessage()
+    {
+        $participant = $this->getAuthenticatedParticipant();
+
+        return $this->threadManager->findParticipantInboxThreadsIncludingFirstSentMessage($participant);
+    }
 }
