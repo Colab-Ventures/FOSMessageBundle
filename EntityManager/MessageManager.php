@@ -177,6 +177,18 @@ class MessageManager extends BaseMessageManager
         return $this->repository->findBy(['thread' => $thread], ['createdAt' => 'desc']);
     }
 
+    public function getUnreadThreadCount(ParticipantInterface $participant)
+    {
+        $qb = $this->em->getRepository($this->metaClass)->createQueryBuilder('t');
+        $qb->select($qb->expr()->count('m.thread'));
+        $qb->innerJoin('t.message', 'm');
+        $qb->where('t.participant = :participant')->setParameter('participant', $participant);
+        $qb->andWhere('t.isRead = false');
+        $qb->groupBy('m.thread');
+        $results = $qb->getQuery()->getResult();
+        return sizeof($results);
+    }
+
     /**
      * DENORMALIZATION
      *
