@@ -172,9 +172,9 @@ class MessageManager extends BaseMessageManager
         return $this->class;
     }
 
-    public function getThreadMessages(ThreadInterface $thread)
+    public function getThreadMessages(ThreadInterface $thread, $orderBy = ['createdAt' => 'asc'])
     {
-        return $this->repository->findBy(['thread' => $thread], ['createdAt' => 'desc']);
+        return $this->repository->findBy(['thread' => $thread], $orderBy);
     }
 
     public function getUnreadThreadCount(ParticipantInterface $participant)
