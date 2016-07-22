@@ -184,7 +184,9 @@ class MessageManager extends BaseMessageManager
         $qb->innerJoin('t.message', 'm');
         $qb->where('t.participant = :participant')->setParameter('participant', $participant);
         $qb->andWhere('t.isRead = false');
+        $qb->andWhere('m.sender != :participant')->setParameter('participant', $participant);
         $qb->groupBy('m.thread');
+
         $results = $qb->getQuery()->getResult();
         return sizeof($results);
     }
