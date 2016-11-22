@@ -13,7 +13,7 @@ class ThreadDenormalizerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('Broken, needs to be fixed');
+        $this->markTestSkipped('Broken, needs to be fixed');
 
         $this->dates = array(
             new DateTime('- 3 days'),

@@ -17,17 +17,17 @@ class MessageExtensionTest extends \PHPUnit_Framework_TestCase
     
     public function setUp() 
     {        
-        $this->participantProvider = $this->getMock('FOS\MessageBundle\Security\ParticipantProviderInterface');
-        $this->provider = $this->getMock('FOS\MessageBundle\Provider\ProviderInterface');
-        $this->authorizer = $this->getMock('FOS\MessageBundle\Security\AuthorizerInterface');        
-        $this->participant = $this->getMock('FOS\MessageBundle\Model\ParticipantInterface');        
+        $this->participantProvider = $this->createMock('FOS\MessageBundle\Security\ParticipantProviderInterface');
+        $this->provider = $this->createMock('FOS\MessageBundle\Provider\ProviderInterface');
+        $this->authorizer = $this->createMock('FOS\MessageBundle\Security\AuthorizerInterface');
+        $this->participant = $this->createMock('FOS\MessageBundle\Model\ParticipantInterface');
         $this->extension = new MessageExtension($this->participantProvider, $this->provider, $this->authorizer);
     }
     
     public function testIsReadReturnsTrueWhenRead() 
     {
         $this->participantProvider->expects($this->once())->method('getAuthenticatedParticipant')->will($this->returnValue($this->participant));
-        $readAble = $this->getMock('FOS\MessageBundle\Model\ReadableInterface');
+        $readAble = $this->createMock('FOS\MessageBundle\Model\ReadableInterface');
         $readAble->expects($this->once())->method('isReadByParticipant')->with($this->participant)->will($this->returnValue(true));        
         $this->assertTrue($this->extension->isRead($readAble));
     }
@@ -35,7 +35,7 @@ class MessageExtensionTest extends \PHPUnit_Framework_TestCase
     public function testIsReadReturnsFalseWhenNotRead() 
     {
         $this->participantProvider->expects($this->once())->method('getAuthenticatedParticipant')->will($this->returnValue($this->participant));
-        $readAble = $this->getMock('FOS\MessageBundle\Model\ReadableInterface');
+        $readAble = $this->createMock('FOS\MessageBundle\Model\ReadableInterface');
         $readAble->expects($this->once())->method('isReadByParticipant')->with($this->participant)->will($this->returnValue(false));        
         $this->assertFalse($this->extension->isRead($readAble));
     }
@@ -90,6 +90,6 @@ class MessageExtensionTest extends \PHPUnit_Framework_TestCase
     
     protected function getThreadMock() 
     {
-        return $this->getMock('FOS\MessageBundle\Model\ThreadInterface');
+        return $this->createMock('FOS\MessageBundle\Model\ThreadInterface');
     }
 }
